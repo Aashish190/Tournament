@@ -10,7 +10,8 @@ public class Welcome {
     public static void main(String[] args) throws FileNotFoundException {
         FileInput fInput;
         ConsoleInput consoleInput;
-        System.out.println("aashish.root.pack.Welcome to tournament");
+
+        System.out.println("Welcome to tournament");
         System.out.println(" please choose from the following."+
                   " \n " + " 1. Console Input."+
                   " \n " + " 2. Input File.");

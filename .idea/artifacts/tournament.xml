@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="tournament">
+    <output-path>$PROJECT_DIR$/out/artifacts/Tournament</output-path>
+    <root id="archive" name="tournament.war" />
+  </artifact>
+</component>

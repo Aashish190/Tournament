@@ -15,6 +15,7 @@ public class Algorithm {
     static int[] teamPlays;
     private int numberOfTeam;
     private String argumentFrom;
+    private String process;
 
     public String getArgumentFrom() {
         return argumentFrom;
@@ -35,19 +36,20 @@ public class Algorithm {
 
     public void TournamentSequence() throws FileNotFoundException {
         teamPlays= new int[numberOfTeam];
-        for (int i=1; i <=numberOfTeam;i++) {
-            teamPlays[i-1]=i;
-            teamMatches.put(i,null);
-        }
-        if(numberOfTeam % 2 == 0){
-            evenMethod();
-        }else{
-            oddMethod();
-        }
+            for (int i = 1; i <= numberOfTeam; i++) {
+                teamPlays[i - 1] = i;
+                teamMatches.put(i, null);
+            }
+            if (numberOfTeam % 2 == 0) {
+                evenMethod();
+            } else {
+                oddMethod();
+            }
+
     }
 
     public void evenMethod() throws FileNotFoundException {
-        String process="EvenTeam";
+        process="EvenTeam";
         for(int i =1 ; i <= numberOfTeam-1; i++) {
             for (int j = 1; j <= (numberOfTeam / 2); j++) {
                 int teamA = teamPlays[j - 1];
@@ -80,7 +82,7 @@ public class Algorithm {
     }
 
     public void oddMethod() throws FileNotFoundException {
-        String process = "OddTeam";
+        process = "OddTeam";
         for(int outer =1; outer <= numberOfTeam ; outer++){
             for (int inner =1; inner <= (numberOfTeam+1)/2;inner++ ){
                 int teamA = teamPlays[inner - 1];
@@ -115,11 +117,14 @@ public class Algorithm {
                         teamMatches.put(teamA,nl);
                     }
                 }
+            }if(numberOfTeam==1){
+                createString();
+            }else {
+                int position = teamPlays.length - 1;
+                int tempPlayershift = teamPlays[position];
+                System.arraycopy(teamPlays, 1, teamPlays, 2, teamPlays.length - 2);
+                teamPlays[1] = tempPlayershift;
             }
-            int position = teamPlays.length - 1;
-            int tempPlayershift = teamPlays[position];
-            System.arraycopy(teamPlays, 1, teamPlays, 2, teamPlays.length - 2);
-            teamPlays[1] = tempPlayershift;
         }
         createString();
     }
@@ -127,30 +132,49 @@ public class Algorithm {
     public void createString() throws FileNotFoundException {
         String s = new String();
         String output = null;
-        for (int i = 1; i <= numberOfTeam - 1; i++) {
-            s = i + ":";
-            for (int key : teamMatches.keySet()) {
-                if (key < numberOfTeam) {
-                    s += teamMatches.get(key).get(i - 1).toString() + ":";
-                } else {
-                    s += teamMatches.get(key).get(i - 1).toString() + "\n";
+        if(numberOfTeam==1){
+            s= "1:- \n";
+            output =writeNow(s);
+        }else {
+            if (process.equals("OddTeam")) {
+                for (int i = 1; i <= numberOfTeam; i++) {
+                    s = i + ":";
+                    for (int key : teamMatches.keySet()) {
+                        if (key < numberOfTeam) {
+                            s += teamMatches.get(key).get(i - 1).toString() + ":";
+                        } else {
+                            s += teamMatches.get(key).get(i - 1).toString() + "\n";
+                        }
+                    }
+                    s = s.replaceAll("-2", "-");
+                    output = writeNow(s);
+                }
+            } else {
+                for (int i = 1; i <= numberOfTeam - 1; i++) {
+                    s = i + ":";
+                    for (int key : teamMatches.keySet()) {
+                        if (key < numberOfTeam) {
+                            s += teamMatches.get(key).get(i - 1).toString() + ":";
+                        } else {
+                            s += teamMatches.get(key).get(i - 1).toString() + "\n";
+                        }
+                    }
+                    s = s.replaceAll("-2", "-");
+                    output = writeNow(s);
                 }
             }
-            s = s.replaceAll("-2", "-");
-            output = writeNow(s);
         }
-//        System.out.print(output);
         if (argumentFrom == "ConsoleInput") {
             ConsoleInput ci = new ConsoleInput();
         }else{
             FileInput fi= new FileInput();
         }
+
     }
 
     public String writeNow(String s) {
         try {
-
-            File file = new File("/Users/aashish/Desktop/filenameOutput.txt");
+            File file = new File("/Users/aashish/Desktop/Output.txt");
             if (!file.exists()) {
                 file.createNewFile();
             }

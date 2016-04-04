@@ -12,25 +12,24 @@ import java.util.Scanner;
 
 public class FileInput {
     static int counter =0;
-    protected  String Argument= "FileInput";
+    protected  String Argument= "FileInput ";
+    List<Integer> input= new ArrayList<>();
 
     public FileInput() throws FileNotFoundException {
-
         Scanner scanner = new Scanner(new File("/Users/aashish/Desktop/filename.txt"));
-        List<Integer> input= new ArrayList<>();
-
         while (scanner.hasNextInt()) {
             input.add(Integer.parseInt(scanner.next()));
-//            System.out.print(input.toString());
         }
         if(counter < input.size()){
-            if (input.get(counter) < 2) {
+            if (input.get(counter)  <1 ) {
                 counter++;
-                System.out.println("Team number less than 2, moving to next input");
-                input.add(Integer.parseInt(scanner.nextLine()));
+                if(counter<input.size()){
+                    FileInput fi= new FileInput();
+                }else{
+                    System.exit(1);
+                }
 
             } else {
-
                 Algorithm algorithm = new Algorithm();
                 algorithm.setNumberOfTeam(input.get(counter));
                 counter++;
@@ -40,9 +39,11 @@ public class FileInput {
             }
         }else{
             System.out.println("File created no more enteries in the input file. thanks");
-            System.exit(0);
+            System.exit(1);
 
         }
-//        System.out.print();
+//
+
     }
 }
+

@@ -1,0 +1,98 @@
+########################################################################################################################
+########################################### created on : april 04 2016  ################################################
+########################################### Author: AashishMahajan      ################################################
+############################### Document: To implement the code and start the execution#################################
+########################################################################################################################
+
+case1:
+########################################################################################################################
+For case when Team input is == 1
+########################################################################################################################
+
+here as the team number is odd and the number of days to conduct match would be n, but because there is no other team to
+compete in tournament, we would represent the output as : 1:-
+    which represent that on day 1: no match was played , as tournament or match happens between 2 teams,
+########################################################################################################################
+
+
+case2:
+########################################################################################################################
+Condition: suppose n is the given number of teams and is even and more than equal 2
+########################################################################################################################
+for the even : Outer Loop runs for: 1..... N-1 : it accounts for the number of days here
+    inner loop runs for less for inner: 1... n/2 : it accounts for which team what team plays
+
+        here team[inner-1] plays team[N-1 -inner +1] [here inner keeps the index to pick value of team from hashmap and
+        add team from hashmap with .get(n-1-inner+1)]
+
+        here team is managed and added to hashmap. here the value of hashmap.get(team[inner-1]) is added to
+            hashmap.get(team[i-1]) and vice versa
+
+    ---- end ----
+
+    now we keep the first element fixed and rotated the last element to 2 place and all element in team move forward.
+             ex 1 2 3 4 5 6   =>  1 6 2 3 4 5
+    this loop ensures that any given time: in first iteration if 1 plays 6 , in no other iteration for outer for loop,
+     never would the term 1-6 come in play pair because of the rotation of element.
+     ex 1 2 3 4 5 6   =>  1 6 2 3 4 5 => 1 5 6 2 3 4   =>  1 4 5 6 2 3 => 1 3 4 5 6 2  at the end of n-1 iteration.
+
+---- end ----
+
+Proof by Contradiction: Suppose the algo doesnt work as desired, and for a team: 1 : on some day n it plays again team n
+    E(N) where N is the number fo team and n Belongs to N.
+    In such siutation the as my algo works, it would have to store multiple same value for same key. which is not
+    permitted according to code. hence the code doesnt allow anyone to play more than twice, more over the rotation of
+    element makes it sure that the team[i] doesnt play any team[n] more than once.
+
+print the results
+hence the pair because of iteration dont play each other again.
+########################################################################################################################
+
+case3:
+########################################################################################################################
+Condition: suppose n is the given number of teams and is odd and is >=1
+########################################################################################################################
+
+for the even : Outer Loop runs for: 1..... N  : it accounts for the number of days here
+    inner loop runs for less for inner: 1... n/2 : it accounts for which team what team plays
+        if((i-1)!=(n-1-i+1))
+        //this ensures that if the team[] is about to play itself than it should execute the else block//
+
+            here team[i-1] plays team[N-1 -inner +1] [here inner keeps the index to pick value of team from hashmap and
+                add team from hashmap with .get(n-1-inner+1)]
+
+            here team is managed and added to hashmap. here the value of hashmap.get(team[inner-1]) is added to
+                hashmap.get(team[inner-1]) and vice versa
+        else// it here adds - to the hashmap for the team[inner-1]
+            hashmap.getTeam[inner-1] is inserted with - sign that denotes it doesnt play today
+
+    ---- end ----
+
+    now we keep the first element fixed and rotated the last element to 2 place and all element in team move forward.
+    ex 1 2 3 4 5    =>  1 5 2 3 4
+
+    this loop ensures that any given time: in first iteration if 1 plays 5 , as the number of terms and iteration is
+    same there would come a scenario where the team would back in its orignal sequence and it would end up playing itself
+    so in this situation we ensure that we denote such situation with " - " that shows that the team doesnt play with
+    any other team. Its on rest
+
+    ex 1 2 3 4 5  =>  1 5 2 3 4 => 1 4 5 2 3   =>  1 3 4 5 2  => 1 2 3 4 5  at the end of n iteration.
+
+---- end ----
+print the results
+hence the pair because of iteration dont play each other again. and a day when team plays itself it is marked with -
+
+
+Proof by Contradiction: Suppose the algo doesnt work as desired, and for a team: 1 : on some day n it plays again team n
+    E(N) where N is the number fo team and n Belongs to N. or in this condition we have another case where team can play
+    itself : In this case what happens is that when team happens to play with itself, we mark the entry as -.
+
+    In such siutation the as my algo works, it would have to store multiple same value for same key. which is not
+    permitted according to code. hence the code doesnt allow anyone to play more than twice, more over the rotation of
+    element makes it sure that the team[i] doesnt play any team[n] more than once.
+
+    for example: 3 teams
+                    1:3:-:1
+                    2:-:2:3
+                    3:3:1:-
+########################################################################################################################

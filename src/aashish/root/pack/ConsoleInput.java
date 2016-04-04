@@ -14,11 +14,13 @@ public class ConsoleInput {
 
         String s = sc.nextLine();
         int in= Integer.parseInt(s);
-        if(in==0){
-            System.out.println("File Exit. thanks");
+        if(in == 0){
+            System.out.println("File Exit");
+            System.exit(1);
+
         }
-        else if(in <2){
-            System.out.println("Please enter a number more then 2");
+        else if(in < 0){
+            System.out.println("Please enter a number more then 1");
             in = sc.nextByte();
         }else{
             Algorithm algorithm = new Algorithm();

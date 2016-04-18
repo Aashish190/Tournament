@@ -36,15 +36,15 @@ public class Algorithm {
 
     public void TournamentSequence() throws FileNotFoundException {
         teamPlays= new int[numberOfTeam];
-            for (int i = 1; i <= numberOfTeam; i++) {
-                teamPlays[i - 1] = i;
-                teamMatches.put(i, null);
-            }
-            if (numberOfTeam % 2 == 0) {
-                evenMethod();
-            } else {
-                oddMethod();
-            }
+        for (int i = 1; i <= numberOfTeam; i++) {
+            teamPlays[i - 1] = i;
+            teamMatches.put(i, null);
+        }
+        if (numberOfTeam % 2 == 0) {
+            evenMethod();
+        } else {
+            oddMethod();
+        }
 
     }
 
@@ -83,50 +83,52 @@ public class Algorithm {
 
     public void oddMethod() throws FileNotFoundException {
         process = "OddTeam";
-        for(int outer =1; outer <= numberOfTeam ; outer++){
-            for (int inner =1; inner <= (numberOfTeam+1)/2;inner++ ){
-                int teamA = teamPlays[inner - 1];
-                int teamB = teamPlays[numberOfTeam - 1 - inner + 1];
-                LinkedList<Integer> l = new LinkedList<>();
-                l = teamMatches.get(teamA);
-                if(teamA != teamB) {
-                    if (l != null) {
-                        l.add(teamB);
-                        teamMatches.put(teamA, l);
-                    } else {
-                        LinkedList<Integer> nl = new LinkedList<>();
-                        nl.add(teamB);
-                        teamMatches.put(teamA, nl);
-                    }
-                    l = teamMatches.get(teamB);
-                    if (l != null) {
-                        l.add(teamA);
-                        teamMatches.put(teamB, l);
-                    } else {
-                        LinkedList<Integer> nl = new LinkedList<>();
-                        nl.add(teamA);
-                        teamMatches.put(teamB, nl);
-                    }
-                }else{
-                    if(l!=null){
-                        l.add(-2);
-                        teamMatches.put(teamA,l);
+        if(numberOfTeam==1){
+            createString();
+        }else {
+            for(int outer =1; outer <= numberOfTeam ; outer++){
+                for (int inner =1; inner <= (numberOfTeam+1)/2;inner++ ){
+                    int teamA = teamPlays[inner - 1];
+                    int teamB = teamPlays[numberOfTeam - 1 - inner + 1];
+                    LinkedList<Integer> l = new LinkedList<>();
+                    l = teamMatches.get(teamA);
+                    if(teamA != teamB) {
+                        if (l != null) {
+                            l.add(teamB);
+                            teamMatches.put(teamA, l);
+                        } else {
+                            LinkedList<Integer> nl = new LinkedList<>();
+                            nl.add(teamB);
+                            teamMatches.put(teamA, nl);
+                        }
+                        l = teamMatches.get(teamB);
+                        if (l != null) {
+                            l.add(teamA);
+                            teamMatches.put(teamB, l);
+                        } else {
+                            LinkedList<Integer> nl = new LinkedList<>();
+                            nl.add(teamA);
+                            teamMatches.put(teamB, nl);
+                        }
                     }else{
-                        LinkedList<Integer> nl = new LinkedList<>();
-                        nl.add(-2);
-                        teamMatches.put(teamA,nl);
+                        if(l!=null){
+                            l.add(-2);
+                            teamMatches.put(teamA,l);
+                        }else{
+                            LinkedList<Integer> nl = new LinkedList<>();
+                            nl.add(-2);
+                            teamMatches.put(teamA,nl);
+                        }
                     }
                 }
-            }if(numberOfTeam==1){
-                createString();
-            }else {
                 int position = teamPlays.length - 1;
                 int tempPlayershift = teamPlays[position];
-                System.arraycopy(teamPlays, 1, teamPlays, 2, teamPlays.length - 2);
-                teamPlays[1] = tempPlayershift;
+                System.arraycopy(teamPlays, 0, teamPlays, 1, teamPlays.length - 1);
+                teamPlays[0] = tempPlayershift;
             }
+            createString();
         }
-        createString();
+
     }
 
     public void createString() throws FileNotFoundException {
@@ -149,6 +151,11 @@ public class Algorithm {
                     s = s.replaceAll("-2", "-");
                     output = writeNow(s);
                 }
+                String seprator= "";
+                for (int i =1 ;i<= 2*numberOfTeam; i++){
+                    seprator+="#";
+                }
+                output = writeNow(seprator+"\n");
             } else {
                 for (int i = 1; i <= numberOfTeam - 1; i++) {
                     s = i + ":";
@@ -162,6 +169,11 @@ public class Algorithm {
                     s = s.replaceAll("-2", "-");
                     output = writeNow(s);
                 }
+                String seprator= "";
+                for (int i =1 ;i<= 2*numberOfTeam; i++){
+                    seprator+="#";
+                }
+                output = writeNow(seprator+"\n");
             }
         }
         if (argumentFrom == "ConsoleInput") {
@@ -173,20 +185,25 @@ public class Algorithm {
     }
 
     public String writeNow(String s) {
-        try {
-            File file = new File("/Users/aashish/Desktop/Output.txt");
-            if (!file.exists()) {
-                file.createNewFile();
+        if (numberOfTeam > 10) {
+            try {
+                File file = new File("/Users/aashish/Desktop/Output.txt");
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+
+                BufferedWriter out = new BufferedWriter(new FileWriter(file, true));
+                out.write(s);
+                out.close();
+
+            } catch (IOException e) {
+                System.out.print("The text file for tournament not generated. Process failed");
+                e.printStackTrace();
             }
 
-            BufferedWriter out = new BufferedWriter(new FileWriter(file, true));
-            out.write(s);
-            out.close();
-
-        } catch (IOException e) {
-            System.out.print("The text file for tournament not generated. Process failed");
-            e.printStackTrace();
+        }else{
+            System.out.print(s);
         }
-    return "The text file for tournament has been generated with name filename.txt";
+        return "The text file for tournament has been generated with name filename.txt";
     }
 }
